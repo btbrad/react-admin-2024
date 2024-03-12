@@ -12,7 +12,7 @@ const router = createHashRouter([
       <Suspense fallback={<Loading />}>
         <Home />
       </Suspense>
-    ),
+    )
   },
   {
     path: '/about',
@@ -20,8 +20,8 @@ const router = createHashRouter([
       <Suspense fallback={<Loading />}>
         <About />
       </Suspense>
-    ),
-  },
+    )
+  }
 ])
 
 export default router
