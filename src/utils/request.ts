@@ -1,5 +1,6 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import { showLoading, hideLoading } from '@/utils'
+import { message } from 'antd'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -19,7 +20,7 @@ instance.interceptors.request.use(
     return config
   },
   error => {
-    console.log(error)
+    message.error(error)
     return Promise.reject(error)
   }
 )
@@ -31,22 +32,15 @@ instance.interceptors.response.use(
     if (code === 200) {
       return response.data
     }
-    console.log(msg || '系统出错')
+    message.error(msg || '系统出错')
     return Promise.reject(new Error(msg || 'Error'))
   },
   error => {
     hideLoading()
     if (error.response.status === 401) {
       // todo 登录过期
-      // ElMessageBox.confirm('登录状态过期，请重新登录', '提示', {
-      //   confirmButtonText: '确定',
-      //   showCancelButton: false,
-      //   type: 'warning'
-      // }).then(() => {
-      //   removeAll()
-      //   router.push('/login')
-      // })
     }
+    message.error(error.response.data.message)
     return Promise.reject(error.message)
   }
 )
