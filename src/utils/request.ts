@@ -1,4 +1,5 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
+import { showLoading, hideLoading } from '@/utils'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -10,6 +11,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    showLoading()
     const token = localStorage.getItem('token')
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + token
@@ -24,6 +26,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
+    hideLoading()
     const { code, msg } = response.data
     if (code === 200) {
       return response.data
@@ -32,6 +35,7 @@ instance.interceptors.response.use(
     return Promise.reject(new Error(msg || 'Error'))
   },
   error => {
+    hideLoading()
     if (error.response.status === 401) {
       // todo 登录过期
       // ElMessageBox.confirm('登录状态过期，请重新登录', '提示', {
