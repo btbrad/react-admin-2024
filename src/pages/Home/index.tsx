@@ -1,6 +1,7 @@
 import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { login } from '@/api/auth'
+import { formatMoney } from '@/utils'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -20,6 +21,7 @@ const Home = () => {
         go About
       </Button>
       <Button onClick={handleLogin}>登录</Button>
+      <p>{formatMoney(199999999)}</p>
     </>
   )
 }
