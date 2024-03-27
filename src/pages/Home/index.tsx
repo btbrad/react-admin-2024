@@ -2,6 +2,7 @@ import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { login } from '@/api/auth'
 import { formatMoney } from '@/utils'
+import { storage } from '@/utils'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -11,7 +12,10 @@ const Home = () => {
   }
 
   const handleLogin = () => {
-    login()
+    login({
+      username: '',
+      password: ''
+    })
   }
 
   return (
@@ -22,6 +26,10 @@ const Home = () => {
       </Button>
       <Button onClick={handleLogin}>登录</Button>
       <p>{formatMoney(199999999)}</p>
+      <Button onClick={() => storage.set('aaa', { user: 'BT' })}>set storage</Button>
+      <Button onClick={() => alert(storage.get('aaa').user)}>get storage</Button>
+      <Button onClick={() => storage.remove('aaa')}>remove storage</Button>
+      <Button onClick={() => storage.clear()}>clear storage</Button>
     </>
   )
 }

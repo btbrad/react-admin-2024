@@ -1,5 +1,5 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
-import { showLoading, hideLoading } from '@/utils'
+import { showLoading, hideLoading, storage } from '@/utils'
 import { message } from 'antd'
 
 const instance = axios.create({
@@ -13,7 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     showLoading()
-    const token = localStorage.getItem('token')
+    const token = storage.get('token')
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + token
     }
