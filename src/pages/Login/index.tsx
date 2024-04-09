@@ -1,6 +1,7 @@
 import { Form, Input, Button, type FormProps } from 'antd'
 import { login } from '@/api/auth'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { storage } from '@/utils'
 
 type FieldType = {
   username: string
@@ -12,7 +13,8 @@ const Login = () => {
 
   const onFinish: FormProps<FieldType>['onFinish'] = async values => {
     console.log('Success:', values)
-    await login(values)
+    const res = await login(values)
+    storage.set('token', res.data.token)
     navigate('/')
   }
 
